@@ -10,8 +10,8 @@ struct student
     int roll;
     char sec[25];
     char addmission_date[12];
-    int phnum;
-    int classes;
+    char phnum[12];
+    char classes[20];
     int serial_number;
     char addmission_numbers[50];
 };
@@ -66,7 +66,7 @@ void add_student()
     struct student s;
     fp = fopen("Student.dat" , "ab");
     printf("Enter Serial No. ");
-    if(scanf("%d" , s.serial_number ) != 1)
+    if(scanf("%d" , &s.serial_number ) != 1)
     {
         printf("Enter number!\n");
         clear_input_buffer();
@@ -76,4 +76,36 @@ void add_student()
 
     }
     clear_input_buffer();
+    printf("Enter student name: ");
+    fgets(s.name , sizeof(s.name) , stdin);
+
+    printf("Enter student class: ");
+    fgets(s.classes , sizeof(s.classes) , stdin);
+printf("Enter student's section: ");
+fgets(s.sec , sizeof(s.sec) , stdin);
+    printf("Enter student roll: ");
+    if(scanf("%d" , &s.roll) != 1)
+    {
+        printf("Enter Roll!\n");
+        return;
+        clear_input_buffer();
+    }
+clear_input_buffer();
+printf("Enter student addmission date: ");
+fgets(s.addmission_date , sizeof(s.addmission_date) , stdin);
+printf("Enter student addmission number/id: ");
+fgets(s.addmission_numbers , sizeof(s.addmission_numbers) , stdin);
+printf("Enter student phone number: ");
+fgets(s.phnum , sizeof(s.phnum) , stdin);
+
+fwrite(&s , sizeof(s) , 1 ,fp);
+if(fp == NULL)
+{
+    printf("Error opening Database\n");
+    printf("Press any key to contine...");
+    return;
+}
+printf("Student added sucessfully\n");
+printf("Press any key to contiue...");
+return;
 }
