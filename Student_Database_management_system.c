@@ -11,12 +11,13 @@ struct student
     char sec[25];
     char addmission_date[12];
     char phnum[12];
-    char classes[20];
+    int classes;
     int serial_number;
     char addmission_numbers[50];
 };
 FILE *fp;
 void add_student();
+void delete_student();
 void clear_input_buffer();
 int main()
 {
@@ -50,6 +51,12 @@ int main()
             getch();
             break;
         }
+     case 2:
+        {
+            delete_student();
+            getch();
+            break;
+        }
      }
  }
 }
@@ -80,7 +87,15 @@ void add_student()
     fgets(s.name , sizeof(s.name) , stdin);
 
     printf("Enter student class: ");
-    fgets(s.classes , sizeof(s.classes) , stdin);
+    if(scanf("%d" , &s.classes) != 1)
+    {
+        clear_input_buffer();
+        printf("Enter student's class!\n");
+        printf("Press any key to continue...");
+        return;
+    }
+
+    clear_input_buffer();
 printf("Enter student's section: ");
 fgets(s.sec , sizeof(s.sec) , stdin);
     printf("Enter student roll: ");
@@ -108,4 +123,44 @@ if(fp == NULL)
 printf("Student added sucessfully\n");
 printf("Press any key to contiue...");
 return;
+fclose(fp);
 }
+
+void delete_student()
+{
+    struct student s;
+    int class_display;
+    int roll_to_delete;
+    int record = 0;
+    int found = 0;
+    FILE *ft;
+    system("cls");
+    printf("\n\t*********Delete Student********\n");
+    printf("Enter Student class to delete: ");
+    if(scanf("%d" , &class_display) != 1)
+    {
+        clear_input_buffer();
+        printf("Enter class!\n");
+        printf("Press any key to continue...");
+        return;
+    }
+    clear_input_buffer();
+   printf("Enter roll to delete: ");
+   if(scanf("%d" , &roll_to_delete) != 1)
+   {
+       printf("Invalid input.Press any key to continue...");
+       clear_input_buffer();
+   }
+   clear_input_buffer();
+
+   fp = fopen("Student.dat" , "rb");
+   ft = fopen("Temp.dat", "ab");
+   if(fp == NULL || ft == NULL)
+   {
+       printf("Error opening database.Press any key to continue...");
+       return;
+   }
+ fclose(fp);
+ fclose(ft);
+}
+
